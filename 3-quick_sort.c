@@ -1,95 +1,60 @@
 #include "sort.h"
 
-void divide(int beg, int pivot, int *i, size_t size);
-int partition(int beg, int pivot, int *i, size_t size);
-void swap_int(int *a, int *b);
+void partition_sort(int *array, int lowerbound, int upperbound);
+
 /**
- * quick_sort - sorts an array of integers in ascending order
- * @array: array to be sorted
- * @size: size of the array
+ * quick_sort - quick sort algorithm
+ *
+ * @array: given array
+ * @size: size of array
  */
+
 void quick_sort(int *array, size_t size)
 {
-	int beg = 0, pivot;
-
-	if (array && size > 1)
-	{
-		pivot = (size - 1);
-		divide(beg, pivot, array, size);
-	}
+	if (size < 2)
+		return;
+	partition_sort(array, 0, (int)size - 1);
 }
-/**
-* divide - recursively partition
-* @beg: beginning of divided array
-* @pivot: end of divided array
-* @i: the beginning of the array
-* @size: size of array
-**/
-void divide(int beg, int pivot, int *i, size_t size)
-{
-	int first, second, np;
 
-	if (beg < pivot)
-	{
-		second = partition(beg, pivot, i, size);
-		first = beg;
-		np = second - 1;
-		if (first != np && second != pivot)
-			np--;
-		divide(first, np, i, size);
-		divide(second, pivot, i, size);
-	}
-}
 /**
-* partition - divides an array
-* @beg: beginning of array separated
-* @pivot: end of array separated
-* @i: the beginning of array
-* @size: size of array
-* Return: the new beginning
-**/
-int partition(int beg, int pivot, int *i, size_t size)
-{
-	int temp;
+ * partition_sort - sorts an array based on a pivot point
+ *
+ * @array: given array;
+ * @lowerbound: sort/comparison lower point
+ * @upperbound: sort/comparison upper point
+ */
 
-	temp = beg;
-	while (temp != pivot)
+void partition_sort(int *array, int lowerbound, int upperbound)
+{
+	int start, end, val;
+
+	if (lowerbound < upperbound)
 	{
-		if (i[temp] < i[pivot])
+		start = lowerbound;
+		end = upperbound;
+		while (start < end)
 		{
-			if (temp != beg)
+			while (array[start] < array[end])
+				end--;
+			if (start < end)
 			{
-				swap_int(i + temp, i + beg);
-				print_array(i, size);
+				val = array[start];
+				array[start] = array[end];
+				array[end] = val;
+				start++;
+				print_array(array, (size_t)upperbound + 1);
 			}
-			temp++;
-			beg++;
+			while (array[end] >= array[start])
+				start++;
+			if (start < end)
+			{
+				val = array[start];
+				array[start] = array[end];
+				array[end] = val;
+				end--;
+			}
 		}
-		else
-			temp++;
+		partition_sort(array, lowerbound, end - 1);
+		partition_sort(array, end + 1, upperbound);
 	}
-	if (beg != pivot)
-	{
-		if (i[beg] > i[pivot])
-		{
-			swap_int(i + pivot, i + beg);
-			print_array(i, size);
-		}
-		beg++;
-	}
-	return (beg);
-}
-
-/**
-  * swap_int - swaps the values of two integers
-  * @a: take an int
-  * @b: take an int
-  */
-void swap_int(int *a, int *b)
-{
-	int temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
 }
