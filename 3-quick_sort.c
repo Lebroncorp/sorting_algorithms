@@ -1,57 +1,95 @@
 #include "sort.h"
 
+void divide(int beg, int pivot, int *i, size_t size);
+int partition(int beg, int pivot, int *i, size_t size);
+void swap_int(int *a, int *b);
 /**
- * pivot_sort - sorts an array based on a pivot point comparison
- * @array: given array
- * @lower: comparison descending point
- * @upper: comparison for ascending point
+ * quick_sort - sorts an array of integers in ascending order
+ * @array: array to be sorted
+ * @size: size of the array
  */
-
-void pivot_sort(int *array, int lower, int upper)
+void quick_sort(int *array, size_t size)
 {
-	int begin, end, temp;
+	int beg = 0, pivot;
 
-	if (lower < upper)
+	if (array && size > 1)
 	{
-		begin = lower;
-		end = upper;
-		while (begin < end)
-		{
-			while (array[begin] < array[end])
-				end--;
-			if (begin < end)
-			{
-				temp = array[start];
-				array[begin] = array[end];
-				array[end] = temp;
-				begin++;
-				print_array(array, (size_t)upper + 1);
-			}
-			while (array[end] >= array[begin])
-				begin++;
-			if (begin < end)
-			{
-				temp = array[begin];
-				array[begin] = array[end];
-				array[end] = temp;
-				end--;
-			}
-		}
-		pivot_sort(array, lower, end - 1);
-		pivot_sort(array, end + 1, upper);
+		pivot = (size - 1);
+		divide(beg, pivot, array, size);
 	}
+}
+/**
+* divide - recursively partition
+* @beg: beginning of divided array
+* @pivot: end of divided array
+* @i: the beginning of the array
+* @size: size of array
+**/
+void divide(int beg, int pivot, int *i, size_t size)
+{
+	int first, second, np;
+
+	if (beg < pivot)
+	{
+		second = partition(beg, pivot, i, size);
+		first = beg;
+		np = second - 1;
+		if (first != np && second != pivot)
+			np--;
+		divide(first, np, i, size);
+		divide(second, pivot, i, size);
+	}
+}
+/**
+* partition - divides an array
+* @beg: beginning of array separated
+* @pivot: end of array separated
+* @i: the beginning of array
+* @size: size of array
+* Return: the new beginning
+**/
+int partition(int beg, int pivot, int *i, size_t size)
+{
+	int temp;
+
+	temp = beg;
+	while (temp != pivot)
+	{
+		if (i[temp] < i[pivot])
+		{
+			if (temp != beg)
+			{
+				swap_int(i + temp, i + beg);
+				print_array(i, size);
+			}
+			temp++;
+			beg++;
+		}
+		else
+			temp++;
+	}
+	if (beg != pivot)
+	{
+		if (i[beg] > i[pivot])
+		{
+			swap_int(i + pivot, i + beg);
+			print_array(i, size);
+		}
+		beg++;
+	}
+	return (beg);
 }
 
 /**
- * quick_sort - sorts an array of integers in
- * ascending order using the Quick sort algorithm
- * @array: given array
- * @size: size of array
- */
-
-void quick_sort(int *array, size_t size)
+  * swap_int - swaps the values of two integers
+  * @a: take an int
+  * @b: take an int
+  */
+void swap_int(int *a, int *b)
 {
-	if (size < 2)
-		return;
-	pivot_sort(array, 0, (int)size - 1);
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
