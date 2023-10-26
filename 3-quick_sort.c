@@ -47,7 +47,7 @@ void divide(int begin, int pivot, int *start, size_t size)
 
 /**
 * partition - divides an array
-* @beg: beginning of array separated
+* @begin: beginning of array separated
 * @pivot: end of array separated
 * @start: the beginning of array
 * @size: size of array
