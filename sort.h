@@ -23,6 +23,7 @@ void bubble_sort(int *array, size_t size);
 void insertion_sort_list(listint_t **list);
 void switch_list(listint_t *pn, listint_t *temp, listint_t *nxt, listint_t **h);
 void selection_sort(int *array, size_t size);
+void switch_int(int *a, int *b);
 void quick_sort(int *array, size_t size);
 
 #endif
