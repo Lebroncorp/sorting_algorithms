@@ -20,7 +20,7 @@ void insertion_sort_list(listint_t **list)
 		{
 			if (temp->n < pn->n)
 			{
-				switch_list(pn, temp, nn, list);
+				swap_list(pn, temp, nn, list);
 			}
 			temp = nn;
 			if (temp)
@@ -33,14 +33,14 @@ void insertion_sort_list(listint_t **list)
 }
 
 /**
- * switch_list - swaps the position of two nodes in a linked list
+ * swap_list - swaps the position of two nodes in a linked list
  * @pn: previous node
  * @temp: temp
  * @nn: next node
  * @h: head of list
  */
 
-void switch_list(listint_t *pn, listint_t *temp, listint_t *nn, listint_t **h)
+void swap_list(listint_t *pn, listint_t *temp, listint_t *nn, listint_t **h)
 {
 
 	while (pn && temp->n < pn->n)
